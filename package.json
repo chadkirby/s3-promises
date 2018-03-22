@@ -1,6 +1,6 @@
 {
   "name": "s3-promises",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Promisified subset of the AWS S3 SDK",
   "main": "index.js",
   "repository": "https://github.com/chadkirby/s3-promises.git",
