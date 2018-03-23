@@ -13,10 +13,10 @@ function configureS3(defaults = {}, options = {}) {
       // make a promisified version of the method, bound to our s3 context
       let promisified = promisify(prop).bind(s3);
       // attach the promisified method to the s3 context
-      assign(s3, { [`${key}Async`](inputs) {
+      assign(s3, { [`${key}Async`](inputs, ...args) {
         // assign defaults to the input params
         let params = assign({}, defaults, inputs);
-        return promisified(params).catch((err) => {
+        return promisified(params, ...args).catch((err) => {
           // append the method and params then rethrow the error
           err.message += ` s3.${key}(${util.inspect(params)})`;
           throw err;
