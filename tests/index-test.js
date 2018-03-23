@@ -44,8 +44,11 @@ test(`promisifyS3 promisifies s3`, async function(assert) {
       'putObjectAclAsync', 'putObjectTaggingAsync', 'restoreObjectAsync',
       'uploadPartAsync', 'uploadPartCopyAsync', 'retryableErrorAsync',
       'updateReqBucketRegionAsync', 'requestBucketRegionAsync',
-      'reqRegionForNetworkingErrorAsync', 'createPresignedPostAsync',
-      'preparePostPolicyAsync', 'createBucketAsync', 'paginationConfigAsync'
+      'reqRegionForNetworkingErrorAsync', 'getSignedUrlAsync',
+      'createPresignedPostAsync', 'preparePostFieldsAsync',
+      'preparePostPolicyAsync', 'createBucketAsync', 'uploadAsync',
+      'makeRequestAsync', 'makeUnauthenticatedRequestAsync', 'waitForAsync',
+      'paginationConfigAsync'
     ],
     `...Async methods are defined`
   );

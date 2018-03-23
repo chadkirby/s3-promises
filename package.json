@@ -14,10 +14,11 @@
     "eslint": "^4.19.0",
     "eslint-plugin-turbopatent": "^3.0.1",
     "sinon": "^4.4.8",
+    "tap-difflet": "^0.7.0",
     "tape": "^4.9.0"
   },
   "scripts": {
-    "test": "tape tests/*-test.js",
+    "test": "tape tests/*-test.js | tap-difflet",
     "lint": "eslint ."
   }
 }
