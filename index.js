@@ -8,8 +8,8 @@ function configureS3(defaults = {}, options = {}) {
   let s3 = new S3(options);
   for (let key in s3) {
     let prop = s3[key];
-    // look for methods with an arity of 2, which should be (params, callback)
-    if (typeof prop === `function` && prop.length === 2) {
+    // look for methods with an arity > 1, which should be (params, ..., callback)
+    if (typeof prop === `function` && prop.length > 1) {
       // make a promisified version of the method, bound to our s3 context
       let promisified = promisify(prop).bind(s3);
       // attach the promisified method to the s3 context
