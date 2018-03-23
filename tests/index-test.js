@@ -1,5 +1,6 @@
 const test = require(`tape`);
 const sinon = require(`sinon`);
+const { S3 } = require('aws-sdk');
 
 const promisifyS3 = require(`..`);
 
@@ -113,5 +114,20 @@ test(`errors are informative`, async function(assert) {
 test(`config options are passed to S3`, function(assert) {
   let s3 = promisifyS3({}, { maxRetries: 1 });
   assert.equal(s3.config.maxRetries, 1, `maxRetries is set on the s3 instance`);
+  assert.end();
+});
+
+test(`upload is promisified and additional arguments are passed`, async function(assert) {
+  assert.plan(3);
+  let { uploadAsync } = promisifyS3({ Bucket: `default-bucket` });
+  sinon.stub(S3, `ManagedUpload`).callsFake(({ params, queueSize }) => {
+    assert.deepEqual(params, { Bucket: 'default-bucket', Key: 'foo', Body: 'bar' }, `params are passed`);
+    assert.deepEqual(queueSize, 1, `arguments are passed`);
+    return { send(cb) {
+      cb(0, `success`);
+    } };
+  });
+  let result = await uploadAsync({ Key: `foo`, Body: `bar` }, { queueSize: 1 });
+  assert.equal(result, `success`, `result is as expected`);
   assert.end();
 });
