@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.211.1",
+    "co": "^4.6.0",
     "util.promisify": "^1.0.0"
   },
   "devDependencies": {

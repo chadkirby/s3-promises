@@ -1,6 +1,7 @@
 const util = require('util');
 const { S3 } = require('aws-sdk');
 const promisify = require('util.promisify');
+const co = require('co');
 
 const { assign } = Object;
 
@@ -24,6 +25,22 @@ function configureS3(defaults = {}, options = {}) {
       } });
     }
   }
+
+  assign(s3, {
+    listAllObjectsAsync: co.wrap(function* listAll(params) {
+      let out = [];
+      let { MaxKeys = Infinity } = params;
+      let res = yield s3.listObjectsV2Async(params);
+      out.push(...res.Contents);
+      while (res && res.IsTruncated && out.length < MaxKeys) {
+        res = yield s3.listObjectsV2Async(
+          Object.assign({ ContinuationToken: res.NextContinuationToken }, params)
+        );
+        out.push(...res.Contents);
+      }
+      return out;
+    })
+  });
 
   return s3;
 }
